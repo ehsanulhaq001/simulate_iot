@@ -6,6 +6,7 @@ If your device (is not unix based) doesn't support bash shell script file , look
   1. iot_simulator.js
   2. makeiot.sh
 
+Open the file iot_simulator.js and edit the path and hostName.
 ### Move these files (from aws iot thing creation) to the same folder:
   1. Certificate with name : 'iot_thing-certificate.pem.crt'.
   2. Private key with name : 'iot_thing-private.pem.key'.
