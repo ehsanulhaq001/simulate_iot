@@ -1,10 +1,22 @@
-// author: Ehsan Ul Haq
-// Date Created: 13-02-2022
+/*
 
+This code can be used to simulate IoT devices publishing data to the AWS IoT Core.
+User can edit the number of devices (number) and the number of messages (lim) to be published.
+The function publishes the data every 1 second by default.
+
+Please check the AWS IoT sdk js documentation: https://github.com/aws/aws-iot-device-sdk-js#device-class
+
+@author Ehsan Ul Haq
+@since 13-02-2022
+@version 1.0
+
+*/
+
+// You can change the sdk to the newer aws-iot-device-sdk-v2 version.
 let awsIot = require("aws-iot-device-sdk");
 
-const path = <FOLDER_PATH_HERE />;
-const hostName = <HOSTNAME_OR_ENDPOINT_HERE />;
+const path = YOUR_PATH_TO_THE_FOLDER + "/";
+const hostName = YOUR_HOST_NAME;
 
 let device = {
   keyPath: path + "iot_thing-private.pem.key",
@@ -14,25 +26,27 @@ let device = {
 };
 
 let tempDevices = [];
-
 let tempCount = [];
 let tempTimeout = [];
+let cleared = 0;
 
+// variables to be edited
 let inter = 1000;
 let number = 5;
-let lim = 5;
+let lim = 10;
+const iot_topic = "iot_topic";
 
 console.log(
-  "\n..........................................\n\nSimulating ",
+  "\n..........................................\n\nSimulating",
   number,
-  " IoT devices for Temperature, publishing ",
+  "IoT devices for Temperature,\npublishing a total of",
   lim,
-  " messages after ",
-  (inter / 1000).toFixed(3),
-  ` second${inter > 1000 ? "s" : ""} each .....`
+  "messages after every",
+  inter,
+  "milliseconds \nto topic:",
+  iot_topic,
+  "\n"
 );
-
-let cleared = 0;
 
 for (let i = 0; i < number; i++) {
   let tempDevice = device;
@@ -45,26 +59,26 @@ for (let i = 0; i < number; i++) {
 
 tempDevices.forEach((device, i) => {
   device.on("connect", function () {
-    console.log("connected Temp ", i + 1);
-    device.subscribe("iot_topic");
-    tempTimeout[i] = setInterval(() => publishData("temp", device, i), inter);
+    console.log("Temp", i + 1, "connected");
+    device.subscribe(iot_topic);
+    tempTimeout[i] = setInterval(() => publishData(device, i), inter);
   });
 });
 
-function publishData(d, device, i) {
-  let x;
-
+function publishData(device, i) {
   tempCount[i]++;
+
+  // clear interval if lim is reached
   if (tempCount[i] > lim) {
     clearInterval(tempTimeout[i]);
     cleared++;
     checkFinished();
     return;
   }
-  x = tempCount[i];
 
+  // publish data to the topic iot_topic
   device.publish(
-    "iot_topic",
+    iot_topic,
     JSON.stringify({
       device_id: `temp_device_id_${i + 1}`,
       time_stamp: new Date().toISOString(),
@@ -72,9 +86,21 @@ function publishData(d, device, i) {
       value: 20 + Math.random() * 5,
     })
   );
-  console.log("Temp ", x, `${x > 9 ? "" : " "} published at `, new Date());
+
+  console.log(
+    "temp_device_id_",
+    i + 1,
+    " Item ",
+    tempCount[i],
+    `${tempCount[i] > 9 ? "" : " "} published at `,
+    new Date()
+  );
 }
 
 function checkFinished() {
-  if (cleared == number) process.exit();
+  // if all intervals are cleared i.e. all devices have published lim messages, then exit
+  if (cleared == number) {
+    console.log("\nAll messages published\n");
+    process.exit();
+  }
 }
