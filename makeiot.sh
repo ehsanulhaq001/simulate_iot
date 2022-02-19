@@ -1,5 +1,5 @@
 # This code can be used to simulate IoT devices publishing data to the AWS IoT Core.
-# It requires iot_simulator.js file to be present in the same directory.
+# It requires iot_simulator.js file to be present in the same directory and certificates to be presetn in folder "cert" in the same directory.
 
 # @author Ehsan Ul Haq
 # @since 13-02-2022
@@ -26,14 +26,14 @@ fi
 
 printf "\n"
 
-if  [ ! -e "iot_thing-private.pem.key" ] || ! [ -e "iot_thing-certificate.pem.crt" ] || ! [ -e "AmazonRootCA1.cer" ]; then
-  if [ ! -e "iot_thing-certificate.pem.crt" ]; then
+if  [ ! -e "cert/iot_thing-private.pem.key" ] || ! [ -e "cert/iot_thing-certificate.pem.crt" ] || ! [ -e "cert/AmazonRootCA1.cer" ]; then
+  if [ ! -e "cert/iot_thing-certificate.pem.crt" ]; then
     printf "iot_thing-certificate.pem.crt not present\n"
   fi
-  if [ ! -e "iot_thing-private.pem.key" ]; then
+  if [ ! -e "cert/iot_thing-private.pem.key" ]; then
     printf "iot_thing-private.pem.key not present\n"
   fi
-  if [ ! -e "AmazonRootCA1.cer" ]; then
+  if [ ! -e "cert/AmazonRootCA1.cer" ]; then
     printf "AmazonRootCA1.cer not present\n"
   fi
 else
