@@ -7,8 +7,9 @@ It requires npm to be installed on the device.
   1. iot_simulator.js
   2. makeiot.sh
 
-Open the file iot_simulator.js and edit the path and hostName.
-### Move these files (from aws iot thing creation) to the same folder:
+Make a folder *cert*.
+Open the file iot_simulator.js and edit the path, hostName and topic.
+### Move these files (from aws iot) to the folder *cert*:
   1. Certificate with name : 'iot_thing-certificate.pem.crt'.
   2. Private key with name : 'iot_thing-private.pem.key'.
   3. Root CA with name : 'AmazonRootCA1.cer
