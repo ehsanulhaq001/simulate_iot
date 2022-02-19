@@ -95,10 +95,10 @@ function publishData(device, i) {
   console.log(
     "device_id_",
     i + 1,
-    i + 1 > 99 ? "" : i + 1 > 9 ? " " : "   ",
+    i + 1 > 99 ? "" : i + 1 > 9 ? " " : "  ",
     ": Item",
     count[i],
-    count[i] > 99 ? "" : count[i] > 9 ? " " : "   ",
+    count[i] > 99 ? "" : count[i] > 9 ? " " : "  ",
     "published at",
     new Date()
   );
