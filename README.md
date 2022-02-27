@@ -3,6 +3,8 @@ Script to simulate IoT devices to connect with AWS IoT core.
 If your device (is not unix based) doesn't support bash shell script file , look into the makeiot.sh file and run the commands on your own.
 It requires npm to be installed on the device.
 
+![Tutorial][tutorial]
+
 ### Download the below two files:
   1. iot_simulator.js
   2. makeiot.sh
@@ -25,3 +27,5 @@ Open the file iot_simulator.js and edit the path, hostName and topic.
 Thanks
 
 Ehsan
+
+[tutorial]: simulate_iot.gif
